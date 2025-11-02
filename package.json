@@ -1,14 +1,13 @@
 {
   "engines": {
-    "node": "v20.11.1"
+    "node": ">=20"
   },
   "name": "wanderlust",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "postinstall": "npm ci --omit=dev --legacy-peer-deps --no-audit --prefer-offline"
+    "build": "npm install --legacy-peer-deps"
   },
   "dependencies": {
     "cloudinary": "^1.41.3",
