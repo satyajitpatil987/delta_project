@@ -8,11 +8,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "postinstall": "npm install --legacy-peer-deps"
+    "postinstall": "npm ci --omit=dev --legacy-peer-deps --no-audit --prefer-offline"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cloudinary": "^1.41.3",
     "connect-flash": "^0.1.1",
@@ -30,6 +27,5 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0"
-  },
-  "description": ""
+  }
 }
