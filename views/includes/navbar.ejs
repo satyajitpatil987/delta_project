@@ -1,46 +1,208 @@
 <style>
-  .btn-search{
+  .btn-search {
     background-color: #fe424d;
-    color:#fff;
+    color: #fff;
   }
-   .btn-search:hover{
+  .btn-search:hover {
     background-color: #fe424d;
-    color:#fff;
+    color: #fff;
+  }
+
+  /* Sidebar styling */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -270px;
+    width: 270px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 1050;
+    transition: left 0.3s ease;
+    padding-top: 70px;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar ul li {
+    padding: 15px 25px;
+  }
+
+  .sidebar ul li a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .sidebar ul li a:hover {
+    color: #fe424d;
+  }
+
+  /* Sidebar header (logo + text) */
+  .sidebar-header {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-header i {
+    color: #fe424d;
+    font-size: 1.5rem;
+  }
+
+  .sidebar-header span {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #fe424d;
+  }
+
+  /* Close button inside sidebar */
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fe424d;
+  }
+
+  /* Overlay behind sidebar */
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1049;
+  }
+
+  .sidebar-links {
+  margin-top: 30px; /* Reduced from 70px */
+}
+
+
+  #overlay.active {
+    display: block;
+  }
+
+  /* Responsive hide/show behavior */
+  @media (max-width: 768px) {
+    .navbar-collapse {
+      display: none !important;
+    }
   }
 </style>
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
+    <!-- Logo -->
     <a class="navbar-brand" href="/listings">
-      <i class="fa-regular fa-compass"></i></a>
-    <button class="navbar-toggler" type="button"
-     data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup" >
-    
+      <i class="fa-regular fa-compass" style="color:#fe424d; font-size:1.8rem;"></i>
+    </a>
+
+    <!-- Hamburger icon -->
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      id="menu-toggle"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- Normal Navbar (desktop) -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-
         <a class="nav-link" href="/listings">Explore</a>
-
       </div>
 
       <div class="navbar-nav ms-auto">
-         <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search destinations" />
-      <button class="btn btn-search" type="submit">Search</button>
-           </form>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search destinations"
+          />
+          <button class="btn btn-search" type="submit">Search</button>
+        </form>
       </div>
+
       <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/listings/new">Airbnb your Home</a>
-        <% if(!currUser) { %>
-        <a class="nav-link"  href="/signup"><b>sign up</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
-        <%} %> <% if(currUser){ %>
-        <a class="nav-link" href="/logout"><b>Logout</b></a>
-        <%} %>
+        <a class="nav-link" href="/listings/new">Airbnb your Home</a>
+        <% if (!currUser) { %>
+          <a class="nav-link" href="/signup"><b>Sign Up</b></a>
+          <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } %>
+        <% if (currUser) { %>
+          <a class="nav-link" href="/logout"><b>Logout</b></a>
+        <% } %>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- Sidebar for mobile -->
+<div id="sidebar-menu" class="sidebar">
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
+    <i class="fa-regular fa-compass"></i>
+    <span>Airbnb</span>
+  </div>
+
+  <span class="close-btn" id="close-sidebar">&times;</span>
+
+  <!-- Reduced top margin -->
+  <ul class="sidebar-links">
+    <li><a href="/listings">Explore</a></li>
+    <li><a href="/listings/new">Airbnb your Home</a></li>
+    <% if (!currUser) { %>
+      <li><a href="/signup">Sign Up</a></li>
+      <li><a href="/login">Login</a></li>
+    <% } %>
+    <% if (currUser) { %>
+      <li><a href="/logout">Logout</a></li>
+    <% } %>
+  </ul>
+</div>
+
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar-menu");
+  const overlay = document.getElementById("overlay");
+  const closeSidebar = document.getElementById("close-sidebar");
+
+  // Open sidebar
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  // Close sidebar when clicking X or overlay
+  closeSidebar.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+</script>
