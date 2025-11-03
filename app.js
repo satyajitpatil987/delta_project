@@ -94,7 +94,7 @@ app.use((req, res, next) => {
 
 // ✅ Root route (fixed)
 app.get("/", (req, res) => {
-  res.redirect("/listings/index");
+  res.redirect("/listings");
 });
 
 // Routers
