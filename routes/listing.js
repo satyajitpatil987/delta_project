@@ -19,6 +19,10 @@ router
     wrapAsync(listingController.createListing)
   );
 
+  router.get("/index", (req, res) => {
+  res.redirect("/listings");
+});
+
 // NEW form route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
